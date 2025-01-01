@@ -2,16 +2,21 @@ version: "3.3"
 services:
   server:
     image: stremio/server:latest
+    container_name: stremio_server
     ports:
       - "11470:11470"
       - "12470:12470"
     volumes:
       - stremio_data:/root/.stremio-server
+      - /usr/bin/ffmpeg:/usr/bin/ffmpeg:ro
+      - /usr/bin/ffprobe:/usr/bin/ffprobe:ro
     environment:
       - FFMPEG_BIN=/usr/bin/ffmpeg
       - FFPROBE_BIN=/usr/bin/ffprobe
       - APP_PATH=/root/.stremio-server
       - NO_CORS=1
+      - CASTING_DISABLED=1
+    restart: unless-stopped
 
 volumes:
   stremio_data:
