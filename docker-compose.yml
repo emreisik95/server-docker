@@ -7,13 +7,21 @@ services:
       - 11470:11470
       - 12470:12470
     volumes:
-      - /bin/ffmpeg:/bin/ffmpeg:ro
-      - /bin/ffprobe:/bin/ffprobe:ro
+      - /usr/bin/ffmpeg:/usr/bin/ffmpeg:ro
+      - /usr/bin/ffprobe:/usr/bin/ffprobe:ro
+      - stremio_data:/root/.stremio-server
     networks:
       - proxy
     environment:
-      - FFMPEG_BIN=/bin/ffmpeg
-      - FFPROBE_BIN=/bin/ffprobe
-      # Uncomment and set value as needed
-      #- APP_PATH=""
-      #- NO_CORS=0 
+      - FFMPEG_BIN=/usr/bin/ffmpeg
+      - FFPROBE_BIN=/usr/bin/ffprobe
+      - APP_PATH=/root/.stremio-server
+      - NO_CORS=1
+      - CASTING_DISABLED=1
+
+volumes:
+  stremio_data:
+
+networks:
+  proxy:
+    external: true
